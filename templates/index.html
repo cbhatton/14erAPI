@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Peaks</h1>
+
+<div class="container py-4">
+
+  <form method="post" action="/filter">
+    <div class="row">
+        <div class="col">
+            <select class="form-select" name="class">
+                <option {% if cls == 1 %} selected {% endif %} value="1">1</option>
+                <option {% if cls == 2 %} selected {% endif %} value="2">2</option>
+                <option {% if cls == 3 %} selected {% endif %} value="3">3</option>
+                <option {% if cls == 4 %} selected {% endif %} value="4">4</option>
+            </select>
+        </div>
+        <div class="col">
+            <input type="number" class="form-control" placeholder="Chance of Precipitation" name="precip" value="100">
+        </div>
+        <div class="col">
+            <select class="form-select" name="range">
+                <option selected {% if range == 'Sawatch Range' %} selected {% endif %} value="Sawatch Range">Sawatch Range</option>
+                <option {% if range == 'Sangre de Cristo' %} selected {% endif %} value="Sangre de Cristo">Sangre de Cristo</option>
+                <option {% if range == 'San Juan Mountains' %} selected {% endif %} value="San Juan Mountains">San Juan Mountains</option>
+                <option {% if range == 'Front Range' %} selected {% endif %} value="Front Range">Front Range</option>
+                <option {% if range == 'Mosquito Range' %} selected {% endif %} value="Mosquito Range">Mosquito Range</option>
+                <option {% if range == 'Tenmile Range' %} selected {% endif %} value="Tenmile Range">Tenmile Range</option>
+                <option {% if range == 'Elk Mountains' %} selected {% endif %} value="Elk Mountains">Elk Mountains</option>
+            </select>
+        </div>
+        <div class="col">
+            <select class="form-select" name="ordering">
+                <option {% if ordering = 'class' %} selected {% endif %} value="class">Class</option>
+                <option {% if ordering == 'vert' %} selected {% endif %} value="vert">Vert</option>
+                <option {% if ordering == 'mileage' %} selected {% endif %} value="mileage">Mileage</option>
+                <option {% if ordering == 'precipitation' %} selected {% endif %} value="precipitation">Precipitation</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </div>
+</form>
+
+
+
+<!--  <div class="container">-->
+<!--    <div class="accordion mx-auto" id="accordionExample" style="max-width: 800px;">-->
+
+<!--      <div class="accordion" id="accordionExample">-->
+<!--      {% for peak in peaks %}-->
+<!--        <div class="accordion-item">-->
+<!--          <h2 class="accordion-header">-->
+<!--            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{loop.index}}" aria-expanded="true" aria-controls="collapse-{{loop.index}}">-->
+<!--              {{ peak['name'] }}-->
+<!--            </button>-->
+<!--          </h2>-->
+<!--          <div id="collapse-{{loop.index}}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">-->
+<!--            <div class="accordion-body">-->
+
+<!--              <ul class="list-group">-->
+<!--                <li class="list-group-item">{{ peak['elevation'] }} ft</li>-->
+<!--                <li class="list-group-item">{{ peak['weather'][0]['detailedForecast'] }}</li>-->
+<!--                <li class="list-group-item">-->
+<!--                  <a href="{{ peak['routes'] }}">Routes</a>-->
+<!--                </li>-->
+<!--                <li class="list-group-item">Vert: {{ peak['vert'] }}</li>-->
+<!--                <li class="list-group-item">Mileage: {{ peak['mileage'] }}</li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      {% endfor %}-->
+
+  <div class="col-md-9">
+    <div class="d-flex justify-content-center">
+      <div class="row">
+        <!-- Peak cards -->
+        {% for peak in peaks %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <h3 class="card-header">{{ peak.name }}</h3>
+            <div class="card-body">
+              <p>{{ peak.elevation }} ft</p>
+              <p>{{ peak.weather[0].detailedForecast }}</p>
+              <a href="{{ peak.routes }}">Routes</a>
+
+              <span class="badge bg-primary">{{ peak.class }}</span>
+              <span class="badge bg-secondary">{{ peak.vert }} ft vert</span>
+              <span class="badge bg-secondary">{{ peak.mileage }} miles</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+
